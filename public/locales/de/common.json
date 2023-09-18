@@ -1,3 +1,27 @@
 {
-    "initData": "Diese Information kam von der deutschen common.json file"
+    "categories": {
+        "people": "Menschen",
+        "fruits": "Obst",
+        "mug": "Tassen",
+        "other": "Andere",
+        "showAll": "Alle anzeigen"
+    },
+    "search": "Suchen...",
+    "add_image": "Bild hinzufügen",
+    "category": "Kategorie",
+    "tags": "Tags eingeben",
+    "validation": {
+        "category": "Bitte wähle eine Kategorie aus",
+        "tags": "Bitte gib mindestens einen Tag ein",
+        "image": "Bitte wähle ein Bild aus"
+    },
+    "actions": {
+        "add": "Bild Hinzufügen",
+        "delete": "Bild Löschen",
+        "download": "Bild Herunterladen",
+        "upload": "Bild Hochladen",
+        "like": "Like",
+        "dislike": "Dislike"
+    },
+    "add": "Hinzufügen"
 }

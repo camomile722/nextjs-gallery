@@ -1,3 +1,27 @@
 {
-    "initData": "This data came from the english common.json file"
+    "categories": {
+        "people": "People",
+        "fruits": "Fruits",
+        "mug": "Mugs",
+        "other": "Other",
+        "showAll": "Show All"
+    },
+    "search": "Search...",
+    "add_image": "Add Image",
+    "category": "Category",
+    "tags": "Tags",
+    "validation": {
+        "category": "Category is required",
+        "tags": "Tags are required",
+        "image": "Image is required"
+    },
+    "actions": {
+        "add": "Add Image",
+        "delete": "Delete Image",
+        "download": "Download Image",
+        "upload": "Upload Image",
+        "like": "Like",
+        "dislike": "Dislike"
+    },
+    "add": "Add"
 }

@@ -9,6 +9,7 @@ import {
     Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Delete, Download, Like, Liked } from "src/theme/icons";
 import { CustomTooltip } from "./CustomTooltip";
 import { ImageDataProps } from "./Gallery";
@@ -26,6 +27,7 @@ export const ImageItem = ({
     setSelectedImage,
     deleteItem,
 }: ImageItemProps) => {
+    const { t } = useTranslation();
     const [isLiked, setIsLiked] = useState(false);
     const [likes, setLikes] = useState(item.likes);
     const handleLikeToggle = () => {
@@ -43,7 +45,7 @@ export const ImageItem = ({
     return (
         <Box>
             <Box position="relative">
-                <CustomTooltip label="Delete image">
+                <CustomTooltip label={t("common:actions.delete")}>
                     <Flex top="1" right="1" position="absolute" zIndex="100">
                         <IconButton
                             aria-label="delete image"
@@ -54,7 +56,7 @@ export const ImageItem = ({
                         />
                     </Flex>
                 </CustomTooltip>
-                <CustomTooltip label="Download Image">
+                <CustomTooltip label={t("common:actions.download")}>
                     <Flex top="1" right="50" position="absolute" zIndex="100">
                         <Link download href={item.image.url}>
                             <IconButton
@@ -69,7 +71,7 @@ export const ImageItem = ({
 
                 <Flex top="1" right="98" position="absolute" zIndex="100">
                     {isLiked ? (
-                        <CustomTooltip label="Unlike Image">
+                        <CustomTooltip label={t("common:actions.dislike")}>
                             <IconButton
                                 aria-label="Unlike Image"
                                 icon={<Liked />}
@@ -79,7 +81,7 @@ export const ImageItem = ({
                             />
                         </CustomTooltip>
                     ) : (
-                        <CustomTooltip label="Like Image">
+                        <CustomTooltip label={t("common:actions.like")}>
                             <IconButton
                                 aria-label="Like Image"
                                 icon={<Like />}

@@ -20,6 +20,7 @@ import {
 import { ImageDataProps } from "./Gallery";
 import { Upload } from "src/theme/icons";
 import { CustomTooltip } from "./CustomTooltip";
+import { useTranslation } from "react-i18next";
 
 export interface UploadFormProps {
     images: ImageDataProps[];
@@ -36,25 +37,24 @@ export const UploadForm = ({
     onOpen,
     isOpen,
 }: UploadFormProps) => {
-    // const [keyInput, setKeyInput] = useState("");
-
+    const { t } = useTranslation();
     const [image, setImage] = useState({
         name: "",
         url: "",
     });
 
     const selectOptions = [
-        { value: "people", label: "People" },
-        { value: "fruits", label: "Fruits" },
-        { value: "mugs", label: "Mugs" },
-        { value: "other", label: "Other" },
+        { value: "people", label: t("common:categories.people") },
+        { value: "fruits", label: t("common:categories.fruits") },
+        { value: "mugs", label: t("common:categories.mug") },
+        { value: "other", label: t("common:categories.other") },
     ];
     const validationSchema = Yup.object().shape({
         image: Yup.object().shape({
-            name: Yup.string().required("Image is required"),
+            name: Yup.string().required(t("common:validation.image")),
         }),
-        tags: Yup.string().required("Tags are required"),
-        category: Yup.string().required("Category is required"),
+        tags: Yup.string().required(t("common:validation.tags")),
+        category: Yup.string().required(t("common:validation.category")),
     });
     const formik = useFormik({
         initialValues: {
@@ -94,7 +94,7 @@ export const UploadForm = ({
             <DrawerOverlay />
             <DrawerContent p={6}>
                 <DrawerCloseButton />
-                <DrawerHeader px="0">Bild hinzufügen</DrawerHeader>
+                <DrawerHeader px="0">{t("common:add_image")}</DrawerHeader>
                 <form encType="file" onSubmit={formik.handleSubmit}>
                     <Flex gap={6} alignItems="center" flexDir="column">
                         <FormControl>
@@ -192,7 +192,7 @@ export const UploadForm = ({
                             <Textarea
                                 size="md"
                                 name="tags"
-                                placeholder="Tags eingeben"
+                                placeholder={t("common:tags")}
                                 onChange={formik.handleChange}
                                 _focus={{
                                     borderColor: "gray.300",
@@ -216,7 +216,7 @@ export const UploadForm = ({
                                     borderWidth: "2px",
                                 }}
                             >
-                                <option value="">Category</option>
+                                <option value="">{t("common:category")}</option>
                                 {selectOptions?.map((option) => (
                                     <option
                                         key={option.value}
@@ -241,7 +241,7 @@ export const UploadForm = ({
                             display="block"
                             width="100%"
                         >
-                            Hinzufügen
+                            {t("common:add")}
                         </Button>
                     </Flex>
                 </form>

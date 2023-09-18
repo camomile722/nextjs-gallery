@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import axios from "axios";
 import Head from "next/head";
-import { Box, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { GetServerSidePropsContext } from "next";
@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { Gallery, ImageDataProps } from "src/components/Gallery";
 // import { imageData } from "src/data/imageData";
 import { Header } from "src/components/Header";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     try {
@@ -26,6 +28,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     context.locale as string,
                     namespaces
                 )),
+
                 imageData: imageData.images,
             },
         };
@@ -52,6 +55,9 @@ const Home: NextPage<{ imageData: ImageDataProps[] }> = ({ imageData }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const router = useRouter();
+    console.log(router.locale, "router.locale");
+
     // useEffect(() => {
     //     setIsLoading(true);
 
@@ -79,7 +85,33 @@ const Home: NextPage<{ imageData: ImageDataProps[] }> = ({ imageData }) => {
                 <link rel="icon" href="/public/favicon.ico" />
             </Head>
             <Box p={{ base: "1rem 2rem", md: "3rem 6rem" }}>
-                <Header />
+                <Flex>
+                    <Header />
+                    <Flex gap={1} width="100%" justifyContent="flex-end">
+                        <Link href="/" locale="en">
+                            <Button
+                                variant="outline"
+                                colorScheme={
+                                    router.locale === "en" ? "teal" : "gray"
+                                }
+                                size="sm"
+                            >
+                                EN
+                            </Button>
+                        </Link>
+                        <Link href="/" locale="de">
+                            <Button
+                                variant="outline"
+                                colorScheme={
+                                    router.locale === "de" ? "teal" : "gray"
+                                }
+                                size="sm"
+                            >
+                                DE
+                            </Button>
+                        </Link>
+                    </Flex>
+                </Flex>
                 <Box as="main">
                     <Gallery
                         images={images}

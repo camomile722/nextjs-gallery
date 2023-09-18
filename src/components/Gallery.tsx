@@ -22,6 +22,7 @@ import { CustomTooltip } from "./CustomTooltip";
 import { ImageItem } from "./ImageItem";
 
 import { UploadForm } from "./UploadForm";
+import { useTranslation } from "react-i18next";
 export interface ImageDataProps {
     id: string;
     image: {
@@ -48,6 +49,7 @@ export const Gallery = ({
     isOpen,
     isLoading,
 }: GalleryProps) => {
+    const { t } = useTranslation();
     const [selectedImage, setSelectedImage] = useState<ImageDataProps>();
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredImages, setFilteredImages] = useState<ImageDataProps[]>([]);
@@ -171,19 +173,21 @@ export const Gallery = ({
                         mb={2}
                     >
                         <Button onClick={filterCategory("people")} minW="auto">
-                            <ListItem>People</ListItem>
+                            <ListItem>{t("common:categories.people")}</ListItem>
                         </Button>
                         <Button onClick={filterCategory("fruits")} minW="auto">
-                            <ListItem>Fruits</ListItem>
+                            <ListItem>{t("common:categories.fruits")}</ListItem>
                         </Button>
                         <Button onClick={filterCategory("mug")} minW="auto">
-                            <ListItem>Mug</ListItem>
+                            <ListItem>{t("common:categories.mug")}</ListItem>
                         </Button>
                         <Button onClick={filterCategory("other")} minW="auto">
-                            <ListItem>Other</ListItem>
+                            <ListItem>{t("common:categories.other")}</ListItem>
                         </Button>
                         <Button onClick={resetFilter} minW="auto">
-                            <ListItem>Show all</ListItem>
+                            <ListItem>
+                                {t("common:categories.showAll")}
+                            </ListItem>
                         </Button>
                     </UnorderedList>
                 </Box>
@@ -194,7 +198,7 @@ export const Gallery = ({
                     mt={{ base: "6", md: "8" }}
                 >
                     {/* Add image button */}
-                    <CustomTooltip label="Add image">
+                    <CustomTooltip label={t("common:actions.add")}>
                         <IconButton
                             colorScheme={"gray"}
                             icon={<AddIcon boxSize={4} />}
@@ -205,7 +209,7 @@ export const Gallery = ({
                     {/* Search input field */}
                     <Input
                         type="text"
-                        placeholder="Search ..."
+                        placeholder={t("common:search")}
                         width={{ base: "100%", md: "100%" }}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
