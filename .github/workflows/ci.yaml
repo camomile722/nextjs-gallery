@@ -1,0 +1,19 @@
+#name: CI
+#on: [ push ]
+#jobs:
+#  linting:
+#    name: Lint and format pushed code
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Installing packages
+#        run: yarn install
+#
+#      - name: Running Eslint
+#        run: yarn run lint
+#
+#      - name: Running Prettier
+#        run: yarn run format
