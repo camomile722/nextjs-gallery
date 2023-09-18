@@ -14,9 +14,11 @@ import { Header } from "src/components/Header";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     try {
-        const imageData = await axios
-            .get("http://localhost:3000/api/images")
-            .then((res) => res.data);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        if (!apiUrl) {
+            throw new Error("NEXT_PUBLIC_API_URL is not defined.");
+        }
+        const imageData = await axios.get(apiUrl).then((res) => res.data);
 
         return {
             props: {

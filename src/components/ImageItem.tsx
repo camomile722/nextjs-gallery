@@ -66,9 +66,10 @@ export const ImageItem = ({
                         </Link>
                     </Flex>
                 </CustomTooltip>
-                <CustomTooltip label="Like Image">
-                    <Flex top="1" right="98" position="absolute" zIndex="100">
-                        {isLiked ? (
+
+                <Flex top="1" right="98" position="absolute" zIndex="100">
+                    {isLiked ? (
+                        <CustomTooltip label="Unlike Image">
                             <IconButton
                                 aria-label="Unlike Image"
                                 icon={<Liked />}
@@ -76,7 +77,9 @@ export const ImageItem = ({
                                 _hover={{ opacity: "1" }}
                                 onClick={handleLikeToggle}
                             />
-                        ) : (
+                        </CustomTooltip>
+                    ) : (
+                        <CustomTooltip label="Like Image">
                             <IconButton
                                 aria-label="Like Image"
                                 icon={<Like />}
@@ -84,9 +87,10 @@ export const ImageItem = ({
                                 _hover={{ opacity: "1" }}
                                 onClick={handleLikeToggle}
                             />
-                        )}
-                    </Flex>
-                </CustomTooltip>
+                        </CustomTooltip>
+                    )}
+                </Flex>
+
                 <Box
                     position="relative"
                     width={{ base: "100%", md: "348px" }}
