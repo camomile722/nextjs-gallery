@@ -4,7 +4,7 @@ import { Facebook, Instagram, Twitter } from "src/theme/icons";
 
 export const Header = () => {
     return (
-        <Box as="header" maxW="1220px" m="0 auto">
+        <Box>
             <Flex justifyContent="flex-start" alignItems="center" gap={8}>
                 <Link href="/" cursor="pointer" isExternal>
                     <Twitter boxSize={6} />

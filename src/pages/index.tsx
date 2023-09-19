@@ -85,7 +85,7 @@ const Home: NextPage<{ imageData: ImageDataProps[] }> = ({ imageData }) => {
                 <link rel="icon" href="/public/favicon.ico" />
             </Head>
             <Box p={{ base: "1rem 2rem", md: "3rem 6rem" }}>
-                <Flex>
+                <Flex as="header" maxW="1220px" m="0 auto">
                     <Header />
                     <Flex gap={1} width="100%" justifyContent="flex-end">
                         <Link href="/" locale="en">
