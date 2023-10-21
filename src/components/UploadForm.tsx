@@ -25,7 +25,6 @@ import { useTranslation } from "react-i18next";
 export interface UploadFormProps {
     images: ImageDataProps[];
     setImages: React.Dispatch<React.SetStateAction<ImageDataProps[]>>;
-    onOpen: () => void;
     onClose: () => void;
     isOpen: boolean;
 }
@@ -34,7 +33,6 @@ export const UploadForm = ({
     images,
     setImages,
     onClose,
-    onOpen,
     isOpen,
 }: UploadFormProps) => {
     const { t } = useTranslation();

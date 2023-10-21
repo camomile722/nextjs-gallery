@@ -49,33 +49,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 const Home: NextPage<{ imageData: ImageDataProps[] }> = ({ imageData }) => {
     const { t } = useTranslation();
-    console.log(imageData, "imageData");
-
-    const [images, setImages] = useState<ImageDataProps[]>(imageData);
+    const [images, setImages] = useState<ImageDataProps[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     const { isOpen, onOpen, onClose } = useDisclosure();
     const router = useRouter();
-    console.log(router.locale, "router.locale");
 
-    // useEffect(() => {
-    //     setIsLoading(true);
-
-    //     axios
-    //         .get("http://localhost:3000/api/images")
-    //         .then((res) => {
-    //             const fetchedData = res.data.images;
-    //             setImages(fetchedData);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error fetching data:", error);
-    //         })
-    //         .finally(() => {
-    //             setTimeout(() => {
-    //                 setIsLoading(false);
-    //             }, 1000);
-    //         });
-    // }, []);
+    useEffect(() => {
+        setIsLoading(true);
+        const getAllImages = () => {
+            setIsLoading(true);
+            setImages(imageData);
+            setIsLoading(false);
+        };
+        getAllImages();
+    }, []);
 
     return (
         <>

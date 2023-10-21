@@ -1,5 +1,4 @@
 import { Box, Flex, Link } from "@chakra-ui/react";
-
 import { Facebook, Instagram, Twitter } from "src/theme/icons";
 
 export const Header = () => {

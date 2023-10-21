@@ -20,7 +20,6 @@ import React, { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "src/theme/icons";
 import { CustomTooltip } from "./CustomTooltip";
 import { ImageItem } from "./ImageItem";
-
 import { UploadForm } from "./UploadForm";
 import { useTranslation } from "react-i18next";
 export interface ImageDataProps {
@@ -157,7 +156,6 @@ export const Gallery = ({
                         images={images}
                         setImages={setImages}
                         onClose={onClose}
-                        onOpen={onOpen}
                         isOpen={isOpen}
                     />
                 </Box>
@@ -222,7 +220,7 @@ export const Gallery = ({
                 </Flex>
 
                 {/* Spinner */}
-                {images.length === 0 && (
+                {images?.length === 0 && !isLoading ? (
                     <Box
                         display="flex"
                         justifyContent="center"
@@ -231,12 +229,13 @@ export const Gallery = ({
                     >
                         <Text>No images found</Text>
                     </Box>
-                )}
+                ) : null}
                 {isLoading ? (
                     <Box
                         display="flex"
                         justifyContent="center"
                         alignItems="center"
+                        my={6}
                     >
                         <Spinner size="xl" />
                     </Box>
@@ -248,7 +247,7 @@ export const Gallery = ({
                         mt={{ base: "4", md: "8" }}
                     >
                         {isFiltered
-                            ? filteredImages.map((item: ImageDataProps) => (
+                            ? filteredImages?.map((item: ImageDataProps) => (
                                   <ImageItem
                                       key={item.id}
                                       onModalOpen={onModalOpen}
@@ -257,7 +256,7 @@ export const Gallery = ({
                                       deleteItem={() => deleteItem(item.id)}
                                   />
                               ))
-                            : images.map((item: ImageDataProps) => (
+                            : images?.map((item: ImageDataProps) => (
                                   <ImageItem
                                       key={item.id}
                                       onModalOpen={onModalOpen}
