@@ -33,7 +33,6 @@ These are the following frameworks and libraries in the template:
 -   Cypress
 -   Prettier
 -   Eslint
--   Husky
 
 ## Workflow
 
@@ -44,7 +43,3 @@ Endpoint.
 ## Storybook
 
 Run `yarn storybook` to start Storybook.
-
-## Husky
-
-Husky will lint and format your files before each commit.

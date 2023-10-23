@@ -64,6 +64,7 @@ export const UploadForm = ({
             onClose();
             formik.setErrors({});
             formik.resetForm();
+            setImage({ name: "", url: "" });
         },
     });
 
