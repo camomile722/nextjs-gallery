@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ImageDataProps } from "src/components/Gallery";
 import { imageData } from "src/data/imageData";
+import { ImageDataProps } from "src/types";
 
 type ResponseData = {
     images: ImageDataProps[];

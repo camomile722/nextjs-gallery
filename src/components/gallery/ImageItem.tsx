@@ -5,21 +5,14 @@ import {
     Flex,
     IconButton,
     Image,
-    Link,
     Text,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Delete, Download, Like, Liked } from "src/theme/icons";
-import { CustomTooltip } from "./CustomTooltip";
-import { ImageDataProps } from "./Gallery";
-
-export interface ImageItemProps {
-    item: ImageDataProps;
-    onModalOpen: () => void;
-    setSelectedImage: React.Dispatch<React.SetStateAction<any>>;
-    deleteItem: () => void;
-}
+import { Like, Liked } from "src/theme/icons";
+import { ImageItemProps } from "src/types";
+import { ControlItemButtons } from "../panels/ControlItemButtons";
+import { CustomTooltip } from "../tooltip/CustomTooltip";
 
 export const ImageItem = ({
     item,
@@ -45,52 +38,25 @@ export const ImageItem = ({
     return (
         <Box>
             <Box position="relative">
-                <CustomTooltip label={t("common:actions.delete")}>
-                    <Flex top="1" right="1" position="absolute" zIndex="100">
-                        <IconButton
-                            aria-label="delete image"
-                            icon={<Delete />}
-                            onClick={deleteItem}
-                            opacity="0.7"
-                            _hover={{ opacity: "1" }}
-                        />
-                    </Flex>
-                </CustomTooltip>
-                <CustomTooltip label={t("common:actions.download")}>
-                    <Flex top="1" right="50" position="absolute" zIndex="100">
-                        <Link download href={item.image.url}>
-                            <IconButton
-                                aria-label="Download Image"
-                                icon={<Download />}
-                                opacity="0.7"
-                                _hover={{ opacity: "1" }}
-                            />
-                        </Link>
-                    </Flex>
-                </CustomTooltip>
+                {/* Control buttons: like, download, delete */}
+                <ControlItemButtons deleteItem={deleteItem} item={item} />
 
                 <Flex top="1" right="98" position="absolute" zIndex="100">
-                    {isLiked ? (
-                        <CustomTooltip label={t("common:actions.dislike")}>
-                            <IconButton
-                                aria-label="Unlike Image"
-                                icon={<Liked />}
-                                opacity="0.7"
-                                _hover={{ opacity: "1" }}
-                                onClick={handleLikeToggle}
-                            />
-                        </CustomTooltip>
-                    ) : (
-                        <CustomTooltip label={t("common:actions.like")}>
-                            <IconButton
-                                aria-label="Like Image"
-                                icon={<Like />}
-                                opacity="0.7"
-                                _hover={{ opacity: "1" }}
-                                onClick={handleLikeToggle}
-                            />
-                        </CustomTooltip>
-                    )}
+                    <CustomTooltip
+                        label={
+                            isLiked
+                                ? t("common:actions.dislike")
+                                : t("common:actions.like")
+                        }
+                    >
+                        <IconButton
+                            aria-label={isLiked ? "Unlike Image" : "Like Image"}
+                            icon={isLiked ? <Liked /> : <Like />}
+                            opacity="0.7"
+                            _hover={{ opacity: "1" }}
+                            onClick={handleLikeToggle}
+                        />
+                    </CustomTooltip>
                 </Flex>
 
                 <Box

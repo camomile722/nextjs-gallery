@@ -1,9 +1,5 @@
 import { Tooltip } from "@chakra-ui/react";
-
-export interface CustomTooltipProps {
-    children: React.ReactNode;
-    label: string;
-}
+import { CustomTooltipProps } from "src/types";
 
 export const CustomTooltip = ({ children, label }: CustomTooltipProps) => {
     return (

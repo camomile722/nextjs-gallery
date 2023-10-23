@@ -12,22 +12,14 @@ import {
     Flex,
     FormControl,
     FormHelperText,
-    Input,
     Select,
     Text,
     Textarea,
 } from "@chakra-ui/react";
-import { ImageDataProps } from "./Gallery";
-import { Upload } from "src/theme/icons";
-import { CustomTooltip } from "./CustomTooltip";
-import { useTranslation } from "react-i18next";
 
-export interface UploadFormProps {
-    images: ImageDataProps[];
-    setImages: React.Dispatch<React.SetStateAction<ImageDataProps[]>>;
-    onClose: () => void;
-    isOpen: boolean;
-}
+import { useTranslation } from "react-i18next";
+import { UploadFormProps } from "src/types";
+import { UploadFileInput } from "./UploadFileInput";
 
 export const UploadForm = ({
     images,
@@ -95,74 +87,12 @@ export const UploadForm = ({
                 <DrawerHeader px="0">{t("common:add_image")}</DrawerHeader>
                 <form encType="file" onSubmit={formik.handleSubmit}>
                     <Flex gap={6} alignItems="center" flexDir="column">
-                        <FormControl>
-                            <Flex
-                                flexDir="column"
-                                alignItems="center"
-                                border="1px 
-                                dashed gray"
-                                p={8}
-                                width="100%"
-                            >
-                                <Input
-                                    type="file"
-                                    display="none" // Hide the default file input
-                                    onChange={(e) => {
-                                        const selectedFile =
-                                            e.target?.files?.[0];
-                                        if (selectedFile) {
-                                            const newImage = {
-                                                name: selectedFile.name,
-                                                url: URL.createObjectURL(
-                                                    selectedFile
-                                                ),
-                                            };
-                                            setImage(newImage);
-                                            formik.setFieldValue(
-                                                "id",
-                                                Date.now().toString(36) +
-                                                    Math.random().toString(36)
-                                            );
-                                            formik.setFieldValue(
-                                                "image",
-                                                newImage
-                                            );
-                                            formik.setFieldValue(
-                                                "tags",
-                                                formik.values.tags
-                                            );
-                                        }
-                                    }}
-                                    id="fileInput"
-                                    name="image"
-                                />
-
-                                <label htmlFor="fileInput">
-                                    <CustomTooltip label="Upload File">
-                                        <Button
-                                            as="span"
-                                            bg="none"
-                                            p={10}
-                                            fontWeight="400"
-                                            _hover={{
-                                                bg: "none",
-                                                cursor: "pointer",
-                                                opacity: "0.6",
-                                            }}
-                                        >
-                                            <Upload boxSize={10} />
-                                        </Button>
-                                    </CustomTooltip>
-                                    <Text textAlign="center">.PNG .JPG</Text>
-                                </label>
-                            </Flex>
-                            {formik.touched.image &&
-                                formik.errors.image?.name && (
-                                    <FormHelperText color="red">
-                                        {formik.errors.image.name}
-                                    </FormHelperText>
-                                )}
-                        </FormControl>
+                        <UploadFileInput
+                            formik={formik}
+                            setImage={setImage}
+                            image={image}
+                            setImages={setImages}
+                        />
 
                         {formik.values?.image.name !== "" ? (
                             <>
