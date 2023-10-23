@@ -30,6 +30,7 @@ export const Gallery = ({
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredImages, setFilteredImages] = useState<ImageDataProps[]>([]);
     const [isFiltered, setIsFiltered] = useState(false);
+    const [activeCategory, setActiveCategory] = useState("");
 
     const {
         isOpen: isModalOpen,
@@ -44,10 +45,12 @@ export const Gallery = ({
     const filterCategory = (category: string) => () => {
         setIsFiltered(true);
         setFilteredImages(images.filter((item) => item.category === category));
+        setActiveCategory(category);
     };
     const resetFilter = () => {
         setIsFiltered(false);
         setFilteredImages([]);
+        setActiveCategory("");
     };
     useEffect(() => {
         if (searchQuery) {
@@ -87,6 +90,7 @@ export const Gallery = ({
                     <Categories
                         filterCategory={filterCategory}
                         resetFilter={resetFilter}
+                        activeCategory={activeCategory}
                     />
                 </Box>
                 <Flex

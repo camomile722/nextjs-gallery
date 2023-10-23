@@ -46,6 +46,7 @@ export interface UploadFormProps {
 export interface CategoriesProps {
     filterCategory: (category: string) => () => void;
     resetFilter: () => void;
+    activeCategory: string;
 }
 
 export interface ControlItemButtonsProps {

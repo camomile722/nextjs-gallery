@@ -2,8 +2,19 @@ import { Button, ListItem, UnorderedList } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { CategoriesProps } from "src/types";
 
-const Categories = ({ filterCategory, resetFilter }: CategoriesProps) => {
+const Categories = ({
+    filterCategory,
+    resetFilter,
+    activeCategory,
+}: CategoriesProps) => {
     const { t } = useTranslation();
+    const categoryOptions = [
+        { value: "people", label: t("common:categories.people") },
+        { value: "fruits", label: t("common:categories.fruits") },
+        { value: "mug", label: t("common:categories.mug") },
+        { value: "other", label: t("common:categories.other") },
+    ];
+
     return (
         <UnorderedList
             display="flex"
@@ -15,18 +26,20 @@ const Categories = ({ filterCategory, resetFilter }: CategoriesProps) => {
             marginInlineStart="0"
             mb={2}
         >
-            <Button onClick={filterCategory("people")} minW="auto">
-                <ListItem>{t("common:categories.people")}</ListItem>
-            </Button>
-            <Button onClick={filterCategory("fruits")} minW="auto">
-                <ListItem>{t("common:categories.fruits")}</ListItem>
-            </Button>
-            <Button onClick={filterCategory("mug")} minW="auto">
-                <ListItem>{t("common:categories.mug")}</ListItem>
-            </Button>
-            <Button onClick={filterCategory("other")} minW="auto">
-                <ListItem>{t("common:categories.other")}</ListItem>
-            </Button>
+            {categoryOptions.map((category) => (
+                <Button
+                    onClick={filterCategory(category.value)}
+                    minW="auto"
+                    bg={
+                        activeCategory === category.value
+                            ? "gray.300"
+                            : "gray.100"
+                    }
+                >
+                    <ListItem>{category.label}</ListItem>
+                </Button>
+            ))}
+
             <Button onClick={resetFilter} minW="auto">
                 <ListItem>{t("common:categories.showAll")}</ListItem>
             </Button>

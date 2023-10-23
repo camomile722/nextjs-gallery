@@ -6,7 +6,6 @@ import { GetServerSidePropsContext } from "next";
 import { namespaces } from "../utils/i18nextNS";
 import { useEffect, useState } from "react";
 import { Gallery } from "src/components/gallery/Gallery";
-import { useRouter } from "next/router";
 import { ImageDataProps } from "src/types";
 import { Layout } from "src/components/layout/Layout";
 
@@ -56,7 +55,7 @@ const Home: NextPage<{ imageData: ImageDataProps[] }> = ({ imageData }) => {
             setIsLoading(false);
         };
         getAllImages();
-    }, []);
+    }, [setImages, imageData]);
 
     return (
         <Layout
