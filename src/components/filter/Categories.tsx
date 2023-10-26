@@ -35,6 +35,7 @@ const Categories = ({
                             ? "gray.300"
                             : "gray.100"
                     }
+                    key={category.value}
                 >
                     <ListItem>{category.label}</ListItem>
                 </Button>

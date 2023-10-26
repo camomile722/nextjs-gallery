@@ -1,3 +1,5 @@
+import { FormikProps } from "formik";
+
 export interface ImageDataProps {
     id: string;
     image: {
@@ -15,6 +17,15 @@ export interface GalleryProps {
     onClose: () => void;
     isOpen: boolean;
     isLoading: boolean;
+    isFiltered: boolean;
+    filterCategory: (category: string) => () => void;
+    activeCategory: string;
+    filteredImages: ImageDataProps[];
+    setFilteredImages: React.Dispatch<React.SetStateAction<ImageDataProps[]>>;
+    searchQuery: string;
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+    resetFilter: () => void;
+    isSearched: boolean;
 }
 
 export interface ImageItemProps {
@@ -41,6 +52,10 @@ export interface UploadFormProps {
     setImages: React.Dispatch<React.SetStateAction<ImageDataProps[]>>;
     onClose: () => void;
     isOpen: boolean;
+    isFiltered: boolean;
+    activeCategory: string;
+    filteredImages: ImageDataProps[];
+    setFilteredImages: React.Dispatch<React.SetStateAction<ImageDataProps[]>>;
 }
 
 export interface CategoriesProps {
@@ -52,6 +67,8 @@ export interface CategoriesProps {
 export interface ControlItemButtonsProps {
     deleteItem: () => void;
     item: ImageDataProps;
+    isLiked: boolean;
+    handleLikeToggle: () => void;
 }
 export interface CustomInputProps {
     value: string;
@@ -64,6 +81,9 @@ export interface LayoutProps {
     metaTitle: string;
     metaDescription: string;
 }
+export interface WrapperProps {
+    children: React.ReactNode;
+}
 
 export interface FormValues {
     id: string;
@@ -74,4 +94,7 @@ export interface FormValues {
     tags: string;
     category: string;
     likes: number;
+}
+export interface UploadFileInputProps {
+    formik: FormikProps<FormValues>;
 }

@@ -7,7 +7,7 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CustomTooltip } from "../tooltip/CustomTooltip";
 import { ImageItem } from "./ImageItem";
 import { UploadForm } from "../form/UploadForm";
@@ -16,6 +16,7 @@ import { GalleryProps, ImageDataProps } from "src/types";
 import { ImageModal } from "../modals/ImageModal";
 import Categories from "../filter/Categories";
 import CustomInput from "../form/CustomInput";
+import { Wrapper } from "../wrapper/Wrapper";
 
 export const Gallery = ({
     images,
@@ -24,49 +25,39 @@ export const Gallery = ({
     onOpen,
     isOpen,
     isLoading,
+    filterCategory,
+    isFiltered,
+    activeCategory,
+    filteredImages,
+    setFilteredImages,
+    searchQuery,
+    setSearchQuery,
+    resetFilter,
+    isSearched,
 }: GalleryProps) => {
     const { t } = useTranslation();
     const [selectedImage, setSelectedImage] = useState<ImageDataProps>();
-    const [searchQuery, setSearchQuery] = useState("");
-    const [filteredImages, setFilteredImages] = useState<ImageDataProps[]>([]);
-    const [isFiltered, setIsFiltered] = useState(false);
-    const [activeCategory, setActiveCategory] = useState("");
 
     const {
         isOpen: isModalOpen,
         onOpen: onModalOpen,
         onClose: onCloseModal,
     } = useDisclosure();
-
     const deleteItem = (id: string) => {
-        const filteredImages = images.filter((item) => item.id !== id);
-        setImages(filteredImages);
-    };
-    const filterCategory = (category: string) => () => {
-        setIsFiltered(true);
-        setFilteredImages(images.filter((item) => item.category === category));
-        setActiveCategory(category);
-    };
-    const resetFilter = () => {
-        setIsFiltered(false);
-        setFilteredImages([]);
-        setActiveCategory("");
-    };
-    useEffect(() => {
-        if (searchQuery) {
-            setIsFiltered(true);
-            setFilteredImages(
-                images.filter((item) =>
-                    item.tags?.toLowerCase().includes(searchQuery.toLowerCase())
-                )
+        const updatedImages = images.filter((item) => item.id !== id);
+        setImages(updatedImages);
+
+        // If a filter is active, update filteredImages and filter them based on the active category
+        if (isFiltered) {
+            const updatedFilteredImages = updatedImages.filter(
+                (item) => item.category === activeCategory
             );
-        } else {
-            setIsFiltered(false);
+            setFilteredImages(updatedFilteredImages);
         }
-    }, [searchQuery]);
+    };
 
     return (
-        <Box maxW="1220px" margin="0 auto">
+        <Wrapper>
             <Flex flexDir="column">
                 <Text
                     as="h1"
@@ -78,14 +69,6 @@ export const Gallery = ({
                     Inspiration Gallery
                 </Text>
 
-                <Box width="100%">
-                    <UploadForm
-                        images={images}
-                        setImages={setImages}
-                        onClose={onClose}
-                        isOpen={isOpen}
-                    />
-                </Box>
                 <Box as="nav" overflowX="auto" scrollBehavior="smooth">
                     <Categories
                         filterCategory={filterCategory}
@@ -143,17 +126,18 @@ export const Gallery = ({
                         gap={3}
                         mt={{ base: "4", md: "8" }}
                     >
-                        {(isFiltered ? filteredImages : images)?.map(
-                            (item: ImageDataProps) => (
-                                <ImageItem
-                                    key={item.id}
-                                    onModalOpen={onModalOpen}
-                                    item={item}
-                                    setSelectedImage={setSelectedImage}
-                                    deleteItem={() => deleteItem(item.id)}
-                                />
-                            )
-                        )}
+                        {(isFiltered || isSearched
+                            ? filteredImages
+                            : images
+                        )?.map((item: ImageDataProps) => (
+                            <ImageItem
+                                key={item.id}
+                                onModalOpen={onModalOpen}
+                                item={item}
+                                setSelectedImage={setSelectedImage}
+                                deleteItem={() => deleteItem(item.id)}
+                            />
+                        ))}
                     </Flex>
                 )}
             </Flex>
@@ -166,6 +150,18 @@ export const Gallery = ({
                 images={images}
                 filteredImages={filteredImages}
             />
-        </Box>
+            <Box width="100%">
+                <UploadForm
+                    images={images}
+                    setImages={setImages}
+                    onClose={onClose}
+                    isOpen={isOpen}
+                    isFiltered={isFiltered}
+                    activeCategory={activeCategory}
+                    filteredImages={filteredImages}
+                    setFilteredImages={setFilteredImages}
+                />
+            </Box>
+        </Wrapper>
     );
 };

@@ -4,26 +4,31 @@ import { useRouter } from "next/router";
 
 function LanguagePanel() {
     const router = useRouter();
+    const languages = [
+        {
+            locale: "en",
+            label: "EN",
+        },
+        {
+            locale: "de",
+            label: "DE",
+        },
+    ];
     return (
-        <Flex gap={1} width="100%" justifyContent="flex-end">
-            <Link href="/" locale="en">
-                <Button
-                    variant="outline"
-                    colorScheme={router.locale === "en" ? "teal" : "gray"}
-                    size="sm"
-                >
-                    EN
-                </Button>
-            </Link>
-            <Link href="/" locale="de">
-                <Button
-                    variant="outline"
-                    colorScheme={router.locale === "de" ? "teal" : "gray"}
-                    size="sm"
-                >
-                    DE
-                </Button>
-            </Link>
+        <Flex gap={1}>
+            {languages.map((language) => (
+                <Link href="/" locale={language.locale} key={language.label}>
+                    <Button
+                        variant="outline"
+                        colorScheme={
+                            router.locale === language.locale ? "teal" : "gray"
+                        }
+                        size="sm"
+                    >
+                        {language.label}
+                    </Button>
+                </Link>
+            ))}
         </Flex>
     );
 }

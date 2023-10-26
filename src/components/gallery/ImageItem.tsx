@@ -1,18 +1,8 @@
-import {
-    AbsoluteCenter,
-    Box,
-    Divider,
-    Flex,
-    IconButton,
-    Image,
-    Text,
-} from "@chakra-ui/react";
+import { AbsoluteCenter, Box, Divider, Image, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Like, Liked } from "src/theme/icons";
+import { Like } from "src/theme/icons";
 import { ImageItemProps } from "src/types";
 import { ControlItemButtons } from "../panels/ControlItemButtons";
-import { CustomTooltip } from "../tooltip/CustomTooltip";
 
 export const ImageItem = ({
     item,
@@ -20,7 +10,6 @@ export const ImageItem = ({
     setSelectedImage,
     deleteItem,
 }: ImageItemProps) => {
-    const { t } = useTranslation();
     const [isLiked, setIsLiked] = useState(false);
     const [likes, setLikes] = useState(item.likes);
     const handleLikeToggle = () => {
@@ -39,25 +28,12 @@ export const ImageItem = ({
         <Box>
             <Box position="relative">
                 {/* Control buttons: like, download, delete */}
-                <ControlItemButtons deleteItem={deleteItem} item={item} />
-
-                <Flex top="1" right="98" position="absolute" zIndex="100">
-                    <CustomTooltip
-                        label={
-                            isLiked
-                                ? t("common:actions.dislike")
-                                : t("common:actions.like")
-                        }
-                    >
-                        <IconButton
-                            aria-label={isLiked ? "Unlike Image" : "Like Image"}
-                            icon={isLiked ? <Liked /> : <Like />}
-                            opacity="0.7"
-                            _hover={{ opacity: "1" }}
-                            onClick={handleLikeToggle}
-                        />
-                    </CustomTooltip>
-                </Flex>
+                <ControlItemButtons
+                    deleteItem={deleteItem}
+                    item={item}
+                    isLiked={isLiked}
+                    handleLikeToggle={handleLikeToggle}
+                />
 
                 <Box
                     position="relative"

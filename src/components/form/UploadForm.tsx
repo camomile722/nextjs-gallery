@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import {
@@ -26,17 +26,16 @@ export const UploadForm = ({
     setImages,
     onClose,
     isOpen,
+    isFiltered,
+    activeCategory,
+    filteredImages,
+    setFilteredImages,
 }: UploadFormProps) => {
     const { t } = useTranslation();
-    const [image, setImage] = useState({
-        name: "",
-        url: "",
-    });
-
     const selectOptions = [
         { value: "people", label: t("common:categories.people") },
         { value: "fruits", label: t("common:categories.fruits") },
-        { value: "mugs", label: t("common:categories.mug") },
+        { value: "mug", label: t("common:categories.mug") },
         { value: "other", label: t("common:categories.other") },
     ];
     const validationSchema = Yup.object().shape({
@@ -60,17 +59,15 @@ export const UploadForm = ({
         validationSchema,
         onSubmit: (values) => {
             console.log("Form submitted with values:", values);
+            if (isFiltered && activeCategory !== "") {
+                setFilteredImages([values, ...filteredImages]);
+            }
             setImages([values, ...images]);
             onClose();
             formik.setErrors({});
             formik.resetForm();
-            setImage({ name: "", url: "" });
         },
     });
-
-    useEffect(() => {
-        formik.setFieldValue("image", image);
-    }, [setImages, image]);
 
     return (
         <Drawer
@@ -88,14 +85,9 @@ export const UploadForm = ({
                 <DrawerHeader px="0">{t("common:add_image")}</DrawerHeader>
                 <form encType="file" onSubmit={formik.handleSubmit}>
                     <Flex gap={6} alignItems="center" flexDir="column">
-                        <UploadFileInput
-                            formik={formik}
-                            setImage={setImage}
-                            image={image}
-                            setImages={setImages}
-                        />
+                        <UploadFileInput formik={formik} />
 
-                        {formik.values?.image.name !== "" ? (
+                        {formik.values?.image.name !== "" && (
                             <>
                                 <Box width="100%">
                                     <Text textAlign="center" fontWeight={600}>
@@ -116,13 +108,12 @@ export const UploadForm = ({
                                     </Box>
                                 </Box>
                             </>
-                        ) : null}
+                        )}
                         <FormControl>
                             <Textarea
                                 size="md"
-                                name="tags"
                                 placeholder={t("common:tags")}
-                                onChange={formik.handleChange}
+                                {...formik.getFieldProps("tags")}
                                 _focus={{
                                     borderColor: "gray.300",
                                     boxShadow: "sm",

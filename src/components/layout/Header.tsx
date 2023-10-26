@@ -1,20 +1,33 @@
-import { Box, Flex, Link } from "@chakra-ui/react";
+import { Flex, Link } from "@chakra-ui/react";
 import { Facebook, Instagram, Twitter } from "src/theme/icons";
+import LanguagePanel from "./LanguagePanel";
 
 export const Header = () => {
+    const socials = [
+        {
+            url: "https://twitter.com/",
+            icon: <Twitter boxSize={6} />,
+        },
+        {
+            url: "https://instagram.com/",
+            icon: <Instagram boxSize={6} />,
+        },
+        {
+            url: "https://facebook.com/",
+            icon: <Facebook boxSize={6} />,
+        },
+    ];
     return (
-        <Box>
-            <Flex justifyContent="flex-start" alignItems="center" gap={8}>
-                <Link href="/" cursor="pointer" isExternal>
-                    <Twitter boxSize={6} />
-                </Link>
-                <Link href="/" cursor="pointer" isExternal>
-                    <Instagram boxSize={6} />
-                </Link>
-                <Link href="/" cursor="pointer" isExternal>
-                    <Facebook boxSize={6} />
-                </Link>
+        <Flex justifyContent="space-between" width="100%" as="header">
+            <Flex gap={8}>
+                {socials.map((social) => (
+                    <Link href={social.url} isExternal key={social.url}>
+                        {social.icon}
+                    </Link>
+                ))}
             </Flex>
-        </Box>
+
+            <LanguagePanel />
+        </Flex>
     );
 };

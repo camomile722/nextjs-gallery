@@ -1,9 +1,9 @@
 import { Box, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import { LayoutProps } from "src/types";
+import { Wrapper } from "../wrapper/Wrapper";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import LanguagePanel from "./LanguagePanel";
 
 export const Layout = ({
     children,
@@ -18,12 +18,11 @@ export const Layout = ({
                 <link rel="icon" href="/public/favicon.ico" />
             </Head>
             <Box p={{ base: "1rem 2rem", md: "3rem 6rem" }}>
-                <Flex as="header" maxW="1220px" m="0 auto">
+                <Wrapper>
                     <Header />
-                    <LanguagePanel />
-                </Flex>
+                </Wrapper>
                 <Box as="main">{children}</Box>
-                <Box mt={{ base: "4", md: "20" }}>
+                <Box>
                     <Footer />
                 </Box>
             </Box>

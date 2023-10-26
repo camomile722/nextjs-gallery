@@ -20,58 +20,29 @@ export const ImageModal = ({
     images,
     filteredImages,
 }: ImageModalProps) => {
+    const imagesData = isFiltered ? filteredImages : images;
+    const currentIndex =
+        selectedImage && imagesData.length > 0
+            ? imagesData.indexOf(selectedImage)
+            : 0;
+
     const nextImage = () => {
-        if (selectedImage && images.length > 0 && isFiltered === false) {
-            const currentIndex = images.indexOf(selectedImage);
-            const nextIndex = currentIndex + 1;
-
-            if (nextIndex >= images.length) {
-                return setSelectedImage(images[0]);
-            }
-
-            setSelectedImage(images[nextIndex]);
-        } else if (
-            selectedImage &&
-            filteredImages.length > 0 &&
-            isFiltered === true
-        ) {
-            const currentIndex = filteredImages.indexOf(selectedImage);
-            const nextIndex = currentIndex + 1;
-
-            if (nextIndex >= filteredImages.length) {
-                return setSelectedImage(filteredImages[0]);
-            }
-
-            setSelectedImage(filteredImages[nextIndex]);
+        const nextIndex = currentIndex + 1;
+        if (nextIndex >= imagesData.length) {
+            return setSelectedImage(imagesData[0]);
         }
+        setSelectedImage(imagesData[nextIndex]);
     };
+
     const prevImage = () => {
-        if (selectedImage && images.length > 0 && isFiltered === false) {
-            const currentIndex = images.indexOf(selectedImage);
-            const prevIndex = currentIndex - 1;
+        const prevIndex = currentIndex - 1;
 
-            if (prevIndex < 0) {
-                return setSelectedImage(images[images.length - 1]);
-            }
-
-            setSelectedImage(images[prevIndex]);
-        } else if (
-            selectedImage &&
-            filteredImages.length > 0 &&
-            isFiltered === true
-        ) {
-            const currentIndex = filteredImages.indexOf(selectedImage);
-            const prevIndex = currentIndex - 1;
-
-            if (prevIndex < 0) {
-                return setSelectedImage(
-                    filteredImages[filteredImages.length - 1]
-                );
-            }
-
-            setSelectedImage(filteredImages[prevIndex]);
+        if (prevIndex < 0) {
+            return setSelectedImage(imagesData[imagesData.length - 1]);
         }
+        setSelectedImage(imagesData[prevIndex]);
     };
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="xl">
             <ModalOverlay />

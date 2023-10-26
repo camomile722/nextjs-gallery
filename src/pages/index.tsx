@@ -46,6 +46,22 @@ const Home: NextPage<{ imageData: ImageDataProps[] }> = ({ imageData }) => {
     const [images, setImages] = useState<ImageDataProps[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [filteredImages, setFilteredImages] = useState<ImageDataProps[]>([]);
+    const [isFiltered, setIsFiltered] = useState(false);
+    const [isSearched, setIsSearched] = useState(false);
+    const [activeCategory, setActiveCategory] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const filterCategory = (category: string) => () => {
+        setIsFiltered(true);
+        setFilteredImages(images.filter((item) => item.category === category));
+        setActiveCategory(category);
+    };
+    const resetFilter = () => {
+        setIsFiltered(false);
+        setFilteredImages([]);
+        setActiveCategory("");
+    };
 
     useEffect(() => {
         setIsLoading(true);
@@ -56,6 +72,27 @@ const Home: NextPage<{ imageData: ImageDataProps[] }> = ({ imageData }) => {
         };
         getAllImages();
     }, [setImages, imageData]);
+
+    useEffect(() => {
+        let filtered = images;
+        if (isFiltered) {
+            if (activeCategory) {
+                filtered = images.filter(
+                    (item) => item.category === activeCategory
+                );
+            }
+        }
+        if (searchQuery) {
+            setIsSearched(true);
+            const query = searchQuery.toLowerCase();
+            filtered = filtered.filter((item) =>
+                item.tags?.toLowerCase().includes(query)
+            );
+        } else {
+            setIsSearched(false);
+        }
+        setFilteredImages(filtered);
+    }, [searchQuery, isFiltered, activeCategory, images]);
 
     return (
         <Layout
@@ -69,6 +106,15 @@ const Home: NextPage<{ imageData: ImageDataProps[] }> = ({ imageData }) => {
                 onClose={onClose}
                 isOpen={isOpen}
                 isLoading={isLoading}
+                isFiltered={isFiltered}
+                filterCategory={filterCategory}
+                activeCategory={activeCategory}
+                filteredImages={filteredImages}
+                setFilteredImages={setFilteredImages}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                resetFilter={resetFilter}
+                isSearched={isSearched}
             />
         </Layout>
     );

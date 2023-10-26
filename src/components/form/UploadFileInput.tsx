@@ -6,45 +6,28 @@ import {
     Input,
     Text,
 } from "@chakra-ui/react";
-import { FormikProps } from "formik";
-import React, { useEffect } from "react";
 
+import React from "react";
 import { Upload } from "src/theme/icons";
-import { FormValues, ImageDataProps } from "src/types";
+import { UploadFileInputProps } from "src/types";
 import { CustomTooltip } from "../tooltip/CustomTooltip";
 
-export interface UploadFileInputProps {
-    formik: FormikProps<FormValues>;
-    setImage: (image: any) => void;
-    image: { name: string; url: string };
-    setImages: (images: ImageDataProps[]) => void;
-}
-
-export const UploadFileInput = ({
-    formik,
-    setImage,
-    image,
-    setImages,
-}: UploadFileInputProps) => {
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+export const UploadFileInput = ({ formik }: UploadFileInputProps) => {
+    const handleFileAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target?.files?.[0];
         if (selectedFile) {
             const newImage = {
                 name: selectedFile.name,
                 url: URL.createObjectURL(selectedFile),
             };
-            setImage(newImage);
             formik.setFieldValue(
                 "id",
                 Date.now().toString(36) + Math.random().toString(36)
             );
             formik.setFieldValue("image", newImage);
-            formik.setFieldValue("tags", formik.values.tags);
         }
     };
-    useEffect(() => {
-        formik.setFieldValue("image", image);
-    }, [setImages, image]);
+
     return (
         <FormControl>
             <Flex
@@ -58,7 +41,7 @@ export const UploadFileInput = ({
                 <Input
                     type="file"
                     display="none" // Hide the default file input
-                    onChange={handleFileChange}
+                    onChange={handleFileAdd}
                     id="fileInput"
                     name="image"
                 />
